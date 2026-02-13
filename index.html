@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>J. DESIGNER | Marketing Digital</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --gold: #d4af37;
+            --dark: #0f0f0f;
+            --glass: rgba(255, 255, 255, 0.05);
+            --text: #e0e0e0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            background-color: var(--dark);
+            color: var(--text);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* --- Estilo Emma: Fondo con Gradiente Animado --- */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% 50%, #1a1a1a 0%, #000 100%);
+            z-index: -1;
+        }
+
+        /* --- Header / Hero --- */
+        header {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1558655146-d09347e92766?auto=format&fit=crop&q=80') center/cover;
+        }
+
+        .logo-box {
+            border: 2px solid var(--gold);
+            padding: 10px 20px;
+            margin-bottom: 20px;
+            animation: fadeInDown 1s ease;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            color: var(--gold);
+            letter-spacing: 5px;
+            text-transform: uppercase;
+        }
+
+        .hero-btn {
+            margin-top: 30px;
+            padding: 12px 35px;
+            background: transparent;
+            color: var(--gold);
+            border: 1px solid var(--gold);
+            cursor: pointer;
+            transition: 0.4s;
+            text-transform: uppercase;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .hero-btn:hover {
+            background: var(--gold);
+            color: #000;
+            box-shadow: 0 0 20px var(--gold);
+        }
+
+        /* --- Sections --- */
+        section {
+            padding: 80px 10%;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 50px;
+            border-bottom: 1px solid var(--gold);
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        /* --- Glass Cards --- */
+        .card {
+            background: var(--glass);
+            padding: 40px;
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease;
+            text-align: center;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: var(--gold);
+        }
+
+        .card h3 {
+            color: var(--gold);
+            margin-bottom: 15px;
+        }
+
+        .price {
+            font-size: 1.5rem;
+            display: block;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+
+        ul {
+            list-style: none;
+            text-align: left;
+            margin-bottom: 25px;
+        }
+
+        ul li::before {
+            content: "✦ ";
+            color: var(--gold);
+        }
+
+        /* --- Formulario --- */
+        .contact-form {
+            background: var(--glass);
+            padding: 40px;
+            border-radius: 15px;
+            max-width: 600px;
+            margin: auto;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            border-radius: 5px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+
+        /* --- Animations --- */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-box">
+            <h1>J. DESIGNER</h1>
+        </div>
+        <p>DISEÑO GRÁFICO PROFESIONAL PARA COMUNICACIÓN DIGITAL</p>
+        <a href="#contacto" class="hero-btn">Contactar</a>
+    </header>
+
+    <section id="servicios" class="reveal">
+        <center><h2>Mis Servicios</h2></center>
+        <div class="grid">
+            <div class="card">
+                <h3>Gestión Redes</h3>
+                <p>Potenciamos tu marca en el mundo digital con estrategias de alto impacto.</p>
+            </div>
+            <div class="card">
+                <h3>Diseño de Flyers</h3>
+                <p>Creatividad visual que comunica y vende a primera vista.</p>
+            </div>
+            <div class="card">
+                <h3>Logotipo Básico</h3>
+                <p>La identidad que tu negocio necesita para destacar.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="planes" class="reveal">
+        <center><h2>Planes de Redes</h2></center>
+        <div class="grid">
+            <div class="card">
+                <h3>Plan Básico</h3>
+                <ul>
+                    <li>1 Red Social</li>
+                    <li>8 Publicaciones</li>
+                    <li>4-6 Historias</li>
+                    <li>Reporte Mensual</li>
+                </ul>
+                <button class="hero-btn">Me interesa</button>
+            </div>
+            <div class="card" style="border: 1px solid var(--gold);">
+                <small style="color: var(--gold);">RECOMENDADO</small>
+                <h3>Plan Estándar</h3>
+                <ul>
+                    <li>2 Redes Sociales</li>
+                    <li>12 Publicaciones</li>
+                    <li>Programación de Ads</li>
+                    <li>Ajustes de Rendimiento</li>
+                </ul>
+                <button class="hero-btn">Me interesa</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="contacto" class="reveal">
+        <center><h2>Contacto</h2></center>
+        <div class="contact-form">
+            <p style="text-align: center; margin-bottom: 20px;">¿Listo para transformar tu marca? Hablemos.</p>
+            <form>
+                <input type="text" placeholder="Nombre completo" required>
+                <input type="email" placeholder="Email" required>
+                <textarea rows="4" placeholder="Cuéntame sobre tu proyecto..."></textarea>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="efectos">
+                    <label for="efectos">Quiero que mi página tenga efectos visuales sorprendentes ✨</label>
+                </div>
+                <button type="submit" class="hero-btn" style="width: 100%;">Enviar Mensaje</button>
+            </form>
+            <div style="margin-top: 30px; text-align: center; font-size: 0.9rem;">
+                <p>📞 +52 999 992 1820</p>
+                <p>🌐 JDESIGNERMX.WORDPRESS.COM</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        2026 @SantiagoPsicoDev | Autonomia Digital
+    </footer>
+
+    <script>
+        // --- Emma's Magic Scroll Reveal ---
+        window.addEventListener('scroll', () => {
+            const reveals = document.querySelectorAll('.reveal');
+            reveals.forEach(window => {
+                const windowHeight = window.innerHeight;
+                const revealTop = reveals[i].getBoundingClientRect().top;
+                const revealPoint = 150;
+
+                if (revealTop < windowHeight - revealPoint) {
+                    reveals[i].classList.add('active');
+                }
+            });
+        });
+
+        // Corregido el bucle para que funcione al scrollear
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 150;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        // Ejecutar una vez al cargar
+        reveal();
+    </script>
+</body>
+</html>
