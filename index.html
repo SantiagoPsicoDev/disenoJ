@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>J. DESIGNER | Marketing Digital & Portfolio</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --gold: #d4af37;
+            --gold-light: #f1d592;
+            --dark: #0f0f0f;
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-strong: rgba(255, 255, 255, 0.06);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text: #e0e0e0;
+            --muted: #bcbcbc;
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --shadow: 0 20px 50px rgba(0,0,0,0.45);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--dark);
+            color: var(--text);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        #canvas-bg {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            filter: blur(1px);
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: rgba(15, 15, 15, 0.82);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-size: 0.76rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--gold);
+        }
+
+        header {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            background:
+                linear-gradient(rgba(0,0,0,0.72), rgba(0,0,0,0.82)),
+                url('https://images.unsplash.com/photo-1558655146-d09347e92766?auto=format&fit=crop&q=80') center/cover;
+            background-attachment: fixed;
+        }
+
+        .logo-box {
+            border: 2px solid var(--gold);
+            padding: 20px 40px;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInDown 1.2s ease;
+        }
+
+        .logo-box::after {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(212, 175, 55, 0.3), transparent);
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 8vw, 4rem);
+            color: var(--gold);
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            text-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .hero-copy {
+            max-width: 760px;
+        }
+
+        .hero-copy p:first-of-type {
+            letter-spacing: 3px;
+            font-weight: 300;
+            margin-bottom: 16px;
+        }
+
+        .hero-copy p:last-of-type {
+            color: var(--muted);
+            max-width: 640px;
+            margin: 0 auto;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 12px;
+        }
+
+        .hero-btn {
+            margin-top: 30px;
+            padding: 15px 40px;
+            background: transparent;
+            color: var(--gold);
+            border: 1px solid var(--gold);
+            cursor: pointer;
+            transition: var(--transition);
+            text-transform: uppercase;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+            position: relative;
+            z-index: 1;
+            border-radius: 999px;
+        }
+
+        .hero-btn:hover {
+            color: #000;
+            box-shadow: 0 0 30px var(--gold);
+            transform: scale(1.05);
+        }
+
+        .hero-btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 0; height: 100%;
+            background: var(--gold);
+            transition: var(--transition);
+            z-index: -1;
+            border-radius: inherit;
+        }
+
+        .hero-btn:hover::before { width: 100%; }
+        .hero-btn.secondary { border-color: rgba(255,255,255,0.18); color: #fff; }
+        .hero-btn.secondary::before { background: rgba(255,255,255,0.1); }
+        .hero-btn.secondary:hover { color: var(--gold); box-shadow: 0 0 20px rgba(255,255,255,0.08); }
+
+        section {
+            padding: 100px 10%;
+            max-width: 1400px;
+            margin: auto;
+        }
+
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 5vw, 2.8rem);
+            text-align: center;
+            margin-bottom: 22px;
+            color: var(--gold);
+            position: relative;
+        }
+
+        h2::after {
+            content: "";
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 2px;
+            background: var(--gold);
+        }
+
+        .section-intro {
+            max-width: 860px;
+            margin: 0 auto 40px;
+            text-align: center;
+            color: var(--muted);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
+        }
+
+        .card {
+            background: var(--glass);
+            padding: 34px;
+            border-radius: 22px;
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(15px);
+            transition: var(--transition);
+            position: relative;
+            box-shadow: var(--shadow);
+        }
+
+        .card:hover {
+            transform: translateY(-12px) rotateX(5deg);
+            border-color: var(--gold);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .card h3 {
+            font-family: 'Playfair Display', serif;
+            color: var(--gold-light);
+            margin-bottom: 12px;
+            font-size: 1.4rem;
+        }
+
+        .card p, .card li {
+            color: var(--text);
+        }
+
+        .feature-list {
+            list-style: none;
+            display: grid;
+            gap: 12px;
+            margin-top: 18px;
+        }
+
+        .feature-list li {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+        }
+
+        .feature-list li::before {
+            content: '✦';
+            color: var(--gold);
+            line-height: 1.3;
+        }
+
+        .split-layout {
+            display: grid;
+            grid-template-columns: 1.15fr .85fr;
+            gap: 26px;
+            align-items: stretch;
+        }
+
+        .highlight-box {
+            background: linear-gradient(180deg, rgba(212,175,55,0.08), rgba(255,255,255,0.03));
+            border: 1px solid rgba(212,175,55,0.18);
+        }
+
+        .mini-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 15px;
+            margin-top: 24px;
+        }
+
+        .mini-stat {
+            background: rgba(255,255,255,0.035);
+            border: 1px solid var(--glass-border);
+            border-radius: 18px;
+            padding: 18px;
+            text-align: center;
+        }
+
+        .mini-stat strong {
+            display: block;
+            color: var(--gold);
+            font-size: 1.4rem;
+            margin-bottom: 6px;
+        }
+
+        .process-step {
+            min-height: 100%;
+        }
+
+        .process-step .step-number {
+            width: 42px;
+            height: 42px;
+            display: inline-grid;
+            place-items: center;
+            border-radius: 50%;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            margin-bottom: 16px;
+            font-weight: 700;
+        }
+
+        .portfolio-toolbar {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 18px;
+        }
+
+        .filter-btn {
+            background: rgba(255,255,255,0.04);
+            color: var(--text);
+            border: 1px solid var(--glass-border);
+            border-radius: 999px;
+            padding: 10px 18px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            color: #000;
+            background: var(--gold);
+            border-color: var(--gold);
+            box-shadow: 0 0 20px rgba(212,175,55,0.22);
+        }
+
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 22px;
+            margin-top: 36px;
+        }
+
+        .portfolio-item {
+            position: relative;
+            height: 390px;
+            border-radius: 18px;
+            overflow: hidden;
+            cursor: pointer;
+            border: 1px solid var(--glass-border);
+            background: rgba(255,255,255,0.02);
+            box-shadow: var(--shadow);
+        }
+
+        .portfolio-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s ease, filter 0.4s ease;
+        }
+
+        .portfolio-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(0,0,0,0.1), rgba(0,0,0,0.88));
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            opacity: 0;
+            transition: var(--transition);
+            padding: 24px;
+            text-align: left;
+        }
+
+        .portfolio-item:hover .portfolio-overlay { opacity: 1; }
+        .portfolio-item:hover img { transform: scale(1.08); filter: saturate(1.05); }
+        .portfolio-overlay h3 { color: var(--gold-light); font-family: 'Playfair Display', serif; margin-bottom: 8px; }
+        .portfolio-overlay p { color: #efefef; font-size: 0.95rem; }
+        .portfolio-tag {
+            position: absolute;
+            top: 14px;
+            left: 14px;
+            background: rgba(0,0,0,0.6);
+            border: 1px solid rgba(255,255,255,0.15);
+            color: var(--gold-light);
+            font-size: 0.72rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border-radius: 999px;
+            padding: 8px 12px;
+            z-index: 2;
+        }
+
+        .portfolio-item.hidden { display: none; }
+
+        .plan-card {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .plan-thumb {
+            width: 100%;
+            border-radius: 16px;
+            border: 1px solid var(--glass-border);
+            overflow: hidden;
+            aspect-ratio: 1 / 1;
+        }
+
+        .plan-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .plan-price {
+            font-size: 2rem;
+            color: var(--gold);
+            display: block;
+        }
+
+        .plan-price small { font-size: 0.9rem; color: var(--muted); }
+
+        .pdf-card {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 24px;
+            align-items: center;
+        }
+
+        .pdf-badge {
+            width: 90px;
+            height: 90px;
+            border-radius: 24px;
+            border: 1px solid rgba(212,175,55,0.25);
+            display: grid;
+            place-items: center;
+            background: rgba(255,255,255,0.03);
+            color: var(--gold);
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        .contact-form {
+            background: var(--glass);
+            padding: 50px;
+            border-radius: 25px;
+            border: 1px solid var(--glass-border);
+            max-width: 780px;
+            margin: auto;
+            box-shadow: var(--shadow);
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 25px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--glass-border);
+            color: white;
+            border-radius: 10px;
+            transition: 0.3s;
+        }
+
+        input:focus, textarea:focus {
+            border-color: var(--gold);
+            outline: none;
+            background: rgba(255,255,255,0.1);
+        }
+
+        .contact-actions {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.88);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            opacity: 0;
+            pointer-events: none;
+            transition: 0.3s ease;
+            z-index: 2000;
+        }
+
+        .lightbox.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .lightbox-card {
+            width: min(1100px, 100%);
+            background: rgba(18,18,18,0.96);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 320px;
+        }
+
+        .lightbox-media {
+            background: #070707;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 520px;
+        }
+
+        .lightbox-media img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            max-height: 82vh;
+        }
+
+        .lightbox-content {
+            padding: 28px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 24px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(212,175,55,0.04));
+        }
+
+        .lightbox-content h3 {
+            color: var(--gold-light);
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 18px;
+            right: 18px;
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.14);
+            background: rgba(0,0,0,0.65);
+            color: #fff;
+            font-size: 1.3rem;
+            cursor: pointer;
+            z-index: 5;
+        }
+
+        footer {
+            background: #050505;
+            text-align: center;
+            padding: 60px 20px;
+            font-size: 0.9rem;
+            color: #888;
+            border-top: 1px solid var(--glass-border);
+            margin-top: 40px;
+        }
+
+        @media (max-width: 1000px) {
+            .split-layout,
+            .lightbox-card,
+            .pdf-card {
+                grid-template-columns: 1fr;
+            }
+            .lightbox-media { min-height: 340px; }
+        }
+
+        @media (max-width: 768px) {
+            nav { padding: 15px 20px; }
+            .nav-links { display: none; }
+            section { padding: 70px 5%; }
+            .card { padding: 26px; }
+            .portfolio-item { height: 320px; }
+            .contact-form { padding: 28px; }
+            .hero-actions { flex-direction: column; align-items: center; }
+            .hero-btn { width: min(320px, 90vw); text-align: center; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas-bg"></canvas>
+
+    <nav>
+        <div style="color: var(--gold); font-weight: bold; font-family: 'Playfair Display';">J.D.</div>
+        <div class="nav-links">
+            <a href="#servicios">Servicios</a>
+            <a href="#metodologia">Metodología</a>
+            <a href="#portafolio">Portafolio</a>
+            <a href="#planes">Planes</a>
+            <a href="#contacto">Contacto</a>
+        </div>
+    </nav>
+
+    <header>
+        <div class="logo-box">
+            <h1>J. DESIGNER</h1>
+        </div>
+        <div class="hero-copy reveal active">
+            <p>CREATIVIDAD QUE IMPULSA TU VISIÓN</p>
+            <p>Diseño gráfico y marketing digital con enfoque estratégico para marcas que quieren presencia profesional, identidad visual sólida y comunicación con dirección.</p>
+            <div class="hero-actions">
+                <a href="#portafolio" class="hero-btn">Ver Catálogo ✨</a>
+            </div>
+        </div>
+    </header>
+
+    <section id="servicios" class="reveal">
+        <h2>Servicios Premium</h2>
+        <p class="section-intro">Soluciones de diseño y marketing digital orientadas al desarrollo, posicionamiento y crecimiento de marcas en entornos digitales.</p>
+        <div class="grid">
+            <div class="card">
+                <i data-lucide="share-2" style="color: var(--gold); margin-bottom: 20px;"></i>
+                <h3>Gestión de Redes</h3>
+                <p>Planeación, diseño y organización de contenido para marcas que requieren presencia constante y comunicación profesional.</p>
+            </div>
+            <div class="card">
+                <i data-lucide="badge-percent" style="color: var(--gold); margin-bottom: 20px;"></i>
+                <h3>Diseño Publicitario</h3>
+                <p>Piezas promocionales, banners, flyers, portadas y contenido visual pensado para comunicar con claridad e impacto.</p>
+            </div>
+            <div class="card">
+                <i data-lucide="sparkles" style="color: var(--gold); margin-bottom: 20px;"></i>
+                <h3>Identidad Visual</h3>
+                <p>Logotipos, sistemas visuales y manuales básicos para construir marcas coherentes, reconocibles y funcionales.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="estudio" class="reveal">
+        <div class="split-layout">
+            <div class="card highlight-box">
+                <h3>¿Quiénes somos?</h3>
+                <p>J. Designer Marketing Digital es un estudio profesional enfocado en el diseño y el marketing digital con una visión estratégica. El trabajo del estudio se centra en el desarrollo, posicionamiento y crecimiento de marcas en entornos digitales.</p>
+                <div class="mini-stats">
+                    <div class="mini-stat"><strong>Diseño</strong><span>comunicación clara y coherente</span></div>
+                    <div class="mini-stat"><strong>Estrategia</strong><span>decisiones con dirección real</span></div>
+                    <div class="mini-stat"><strong>Marca</strong><span>presencia profesional y constante</span></div>
+                </div>
+            </div>
+            <div class="card">
+                <h3>Enfoque de trabajo</h3>
+                <ul class="feature-list">
+                    <li>Cada proyecto se aborda entendiendo primero el contexto de la marca, sus objetivos y su entorno digital.</li>
+                    <li>El diseño se concibe como una herramienta que posiciona, estructura y aporta valor real al negocio.</li>
+                    <li>La prioridad es ofrecer claridad y dirección, evitando soluciones genéricas.</li>
+                    <li>Las decisiones visuales se alinean a necesidades específicas y resultados reales.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="metodologia" class="reveal">
+        <h2>Metodología</h2>
+        <p class="section-intro">Cada proyecto se desarrolla bajo un proceso estructurado, enfocado en comprender la marca, definir objetivos claros y ejecutar soluciones alineadas a resultados reales.</p>
+        <div class="grid">
+            <div class="card process-step">
+                <div class="step-number">01</div>
+                <h3>Diagnóstico</h3>
+                <p>Análisis del estado real de la marca, su comunicación, su coherencia visual y el contexto del negocio.</p>
+            </div>
+            <div class="card process-step">
+                <div class="step-number">02</div>
+                <h3>Dirección estratégica</h3>
+                <p>Definición de objetivos, ruta de comunicación y prioridades para que cada pieza responda a una intención clara.</p>
+            </div>
+            <div class="card process-step">
+                <div class="step-number">03</div>
+                <h3>Desarrollo visual</h3>
+                <p>Diseño de propuestas alineadas a identidad, legibilidad, impacto visual y necesidades del canal digital.</p>
+            </div>
+            <div class="card process-step">
+                <div class="step-number">04</div>
+                <h3>Ajustes y mejora</h3>
+                <p>Optimización según resultados, observaciones y oportunidades detectadas para mantener coherencia y crecimiento.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="portafolio" class="reveal">
+        <h2>Portafolio de Diseños</h2>
+        <p class="section-intro">Catálogo visual organizado por categoría para mostrar el alcance del estudio: redes sociales, identidad visual, diseño publicitario y servicios complementarios.</p>
+
+        <div class="portfolio-toolbar">
+            <button class="filter-btn active" data-filter="all">Todo</button>
+            <button class="filter-btn" data-filter="redes">Redes Sociales</button>
+            <button class="filter-btn" data-filter="identidad">Identidad Visual</button>
+            <button class="filter-btn" data-filter="publicidad">Diseño Publicitario</button>
+            <button class="filter-btn" data-filter="extras">Complementarios</button>
+        </div>
+
+        <div class="portfolio-grid">
+            <article class="portfolio-item" data-category="redes" data-title="Gestión de Redes Sociales - Plan Básico" data-description="Publicaciones profesionales, gestión de cuenta y reporte mensual para marcas que buscan presencia constante.">
+                <span class="portfolio-tag">Redes</span>
+                <img src="assets/imagen_1 (13).jpeg" alt="Gestión de redes sociales plan básico">
+                <div class="portfolio-overlay"><h3>Plan Básico</h3><p>1 red social, publicaciones estratégicas, historias y reporte mensual.</p></div>
+            </article>
+
+            <article class="portfolio-item" data-category="redes" data-title="Gestiones de Redes Sociales - Plan Estándar" data-description="Estrategia, contenido, programación y ajustes según rendimiento para crecimiento real.">
+                <span class="portfolio-tag">Redes</span>
+                <img src="assets/imagen_1 (14).jpeg" alt="Gestión de redes sociales plan estándar">
+                <div class="portfolio-overlay"><h3>Plan Estándar</h3><p>Hasta 2 redes sociales, publicaciones estratégicas y optimización continua.</p></div>
+            </article>
+
+            <article class="portfolio-item" data-category="redes" data-title="Gestiones de Redes Sociales - Plan Premium" data-description="Mayor volumen, dirección estratégica, creatividad y ajustes según resultados.">
+                <span class="portfolio-tag">Redes</span>
+                <img src="assets/imagen_1 (1).jpeg" alt="Gestión de redes sociales plan premium">
+                <div class="portfolio-overlay"><h3>Plan Premium</h3><p>Presencia formal y constante para marcas con visión de crecimiento.</p></div>
+            </article>
+
+            <article class="portfolio-item" data-category="identidad" data-title="Diseño de Logotipo Básico" data-description="Propuesta visual para negocios que buscan una identidad profesional y memorable.">
+                <span class="portfolio-tag">Identidad</span>
+                <img src="assets/imagen_1 (12).jpeg" alt="Diseño de logotipo básico">
+                <div class="portfolio-overlay"><h3>Logotipo Básico</h3><p>Diseño gráfico profesional para negocios.</p></div>
+            </article>
+
+            <article class="portfolio-item" data-category="identidad" data-title="Diseño de Logotipo - Pack Completo" data-description="Construcción profesional, isotipo y manual básico para una identidad corporativa consistente.">
+                <span class="portfolio-tag">Identidad</span>
+                <img src="assets/imagen_1 (3).jpeg" alt="Diseño de logotipo pack completo">
+                <div class="portfolio-overlay"><h3>Pack Completo</h3><p>Construcción profesional, isotipo y manual básico.</p></div>
+            </article>
+
+            <article class="portfolio-item" data-category="identidad" data-title="Manual de Identidad Visual Básico" data-description="Guía básica para el uso consistente y profesional de la marca.">
+                <span class="portfolio-tag">Identidad</span>
+                <img src="assets/imagen_1 (4).jpeg" alt="Manual de identidad visual básico">
+                <div class="portfolio-overlay"><h3>Manual de Identidad</h3><p>Uso consistente y profesional de tu marca.</p></div>
+            </article>
+
+            <article class="portfolio-item" data-category="publicidad" data-title="Diseño de Post para Redes Sociales" data-description="Pieza promocional orientada a comunicación clara y consumo rápido en plataformas digitales.">
+                <span class="portfolio-tag">Post</span>
+                <img src="assets/imagen_1 (5).jpeg" alt="Diseño de post para redes sociales">
+                <div class="portfolio-overlay"><h3>Post para Redes</h3><p>Comunicación digital con claridad visual y jerarquía.</p></div>
+            </article>
+
+            <article class="portfolio-item" data-category="publicidad" data-title="Diseño de Carrusel para Redes Sociales" data-description="Piezas secuenciales para storytelling, catálogo visual o contenido explicativo.">
+                <span class="portfolio-tag">Carrusel</span>
+                <img src="assets/imagen_1 (6).jpeg" alt="Diseño de carrusel para redes sociales">
+                <div class="portfolio-overlay"><h3>Carrusel</h3><p>Diseño gráfico profesional para comunicación digital.</p></div>
+            </article>
+
+            <article class="portfolio-item" data-category="publicidad" data-title="Diseño de Historias para Redes Sociales" data-description="Contenido vertical adaptado a marcas que necesitan rapidez visual y coherencia.">
+                <span class="portfolio-tag">Historias</span>
+                <img src="assets/imagen_1 (7).jpeg" alt="Diseño de historias para redes sociales">
+                <div class="portfolio-overlay"><h3>Historias</h3><p>Contenido visual para interacción, alcance y recordación.</p></div>
+            </article>
+
+            <article class="portfolio-item" data-category="publicidad" data-title="Diseño de Banner Publicitario Digital" data-description="Material publicitario para campañas, promociones y lanzamientos de producto.">
+                <span class="portfolio-tag">Banner</span>
+                <img src="assets/imagen_1 (8).jpeg" alt="Diseño de banner publicitario digital">
+                <div class="portfolio-overlay"><h3>Banner Publicitario</h3><p>Promociones digitales con contraste, precio y llamada a la acción.</p></div>
+            </article>
+
+            <article class="portfolio-item" data-category="publicidad" data-title="Diseño de Flyer Digital" data-description="Composición enfocada en lectura rápida, impacto visual y claridad informativa.">
+                <span class="portfolio-tag">Flyer</span>
+                <img src="assets/imagen_1 (9).jpeg" alt="Diseño de flyer digital">
+                <div class="portfolio-overlay"><h3>Flyer Digital</h3><p>Comunicación visual clara y profesional.</p></div>
+            </article>
+
+            <article class="portfolio-item" data-category="publicidad" data-title="Diseño de Portadas Digitales" data-description="Portadas para redes, plataformas digitales y aplicaciones con enfoque de identidad.">
+                <span class="portfolio-tag">Portadas</span>
+                <img src="assets/imagen_1 (10).jpeg" alt="Diseño de portadas digitales">
+                <div class="portfolio-overlay"><h3>Portadas Digitales</h3><p>Presencia visual para redes, plataformas y streaming.</p></div>
+            </article>
+
+            <article class="portfolio-item" data-category="extras" data-title="Tarjeta de Presentación Profesional" data-description="Presentación profesional del negocio con QR y acceso directo a contacto.">
+                <span class="portfolio-tag">Extra</span>
+                <img src="assets/imagen_1 (11).jpeg" alt="Tarjeta de presentación profesional">
+                <div class="portfolio-overlay"><h3>Tarjeta de Presentación</h3><p>Diseño gráfico profesional para identidad corporativa.</p></div>
+            </article>
+
+            <article class="portfolio-item" data-category="extras" data-title="Servicios Extras" data-description="Servicios complementarios para impulsar el rendimiento de la marca: community manager, ads y análisis.">
+                <span class="portfolio-tag">Extra</span>
+                <img src="assets/imagen_1 (2).jpeg" alt="Servicios extras de marketing digital">
+                <div class="portfolio-overlay"><h3>Servicios Extras</h3><p>Optimización, análisis y crecimiento digital.</p></div>
+            </article>
+        </div>
+    </section>
+
+    <section id="planes" class="reveal">
+        <h2>Planes Estratégicos</h2>
+        <p class="section-intro">Tres niveles de servicio para distintas etapas de marca, manteniendo la misma línea visual premium de la web.</p>
+        <div class="grid">
+            <div class="card plan-card">
+                <div class="plan-thumb"><img src="assets/imagen_1 (13).jpeg" alt="Plan básico"></div>
+                <div>
+                    <h3>Plan Básico</h3>
+                    <span class="plan-price">Presencia inicial <small>/ formal</small></span>
+                    <ul class="feature-list">
+                        <li>1 red social: Instagram o Facebook.</li>
+                        <li>8 publicaciones: 6 posts + 2 carruseles.</li>
+                        <li>4-6 historias adaptadas a la identidad visual.</li>
+                        <li>Reporte mensual básico para seguimiento.</li>
+                    </ul>
+                </div>
+                <a href="#contacto" class="hero-btn">Elegir Plan</a>
+            </div>
+
+            <div class="card plan-card" style="border: 1px solid var(--gold);">
+                <div style="position: absolute; top: 14px; right: 20px; color: var(--gold); font-size: 0.72rem; letter-spacing: 2px;">TOP VENTAS</div>
+                <div class="plan-thumb"><img src="assets/imagen_1 (14).jpeg" alt="Plan estándar"></div>
+                <div>
+                    <h3>Plan Estándar</h3>
+                    <span class="plan-price">Crecimiento real <small>/ constante</small></span>
+                    <ul class="feature-list">
+                        <li>Hasta 2 redes sociales con creación u optimización.</li>
+                        <li>12 publicaciones estratégicas: posts y carruseles.</li>
+                        <li>Programación de publicaciones por calendario.</li>
+                        <li>Ajustes según rendimiento y análisis de métricas.</li>
+                    </ul>
+                </div>
+                <a href="#contacto" class="hero-btn">Elegir Plan</a>
+            </div>
+
+            <div class="card plan-card">
+                <div class="plan-thumb"><img src="assets/imagen_1 (1).jpeg" alt="Plan premium"></div>
+                <div>
+                    <h3>Plan Premium</h3>
+                    <span class="plan-price">Dirección total <small>/ premium</small></span>
+                    <ul class="feature-list">
+                        <li>Mayor volumen de contenido con dirección estratégica.</li>
+                        <li>Calendario de contenido y seguimiento de resultados.</li>
+                        <li>Creatividad estratégica orientada a marca y negocio.</li>
+                        <li>Ajustes continuos según rendimiento e impresiones.</li>
+                    </ul>
+                </div>
+                <a href="#contacto" class="hero-btn">Elegir Plan</a>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="contacto" class="reveal">
+        <h2>¿Hacemos algo grande?</h2>
+        <div class="contact-form">
+            <form>
+                <input type="text" placeholder="Tu Nombre" required>
+                <input type="email" placeholder="Tu Email" required>
+                <textarea rows="5" placeholder="Cuéntame sobre tu marca..."></textarea>
+                <button type="submit" class="hero-btn" style="width: 100%;">Enviar Mensaje 🚀</button>
+            </form>
+            <div class="contact-actions">
+                <a class="hero-btn secondary" href="https://wa.me/529999921820" target="_blank">WhatsApp</a>
+                <a class="hero-btn secondary" href="https://www.facebook.com/" target="_blank">Messenger</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>2026 @SantiagoPsicoDev | Autonomía Digital</p>
+    </footer>
+
+    <div class="lightbox" id="lightbox" aria-hidden="true">
+        <button class="lightbox-close" id="lightboxClose" aria-label="Cerrar">✕</button>
+        <div class="lightbox-card">
+            <div class="lightbox-media">
+                <img id="lightboxImage" src="" alt="Vista ampliada del portafolio">
+            </div>
+            <div class="lightbox-content">
+                <div>
+                    <p style="text-transform: uppercase; letter-spacing: 2px; color: var(--gold); font-size: 0.8rem; margin-bottom: 8px;">Vista ampliada</p>
+                    <h3 id="lightboxTitle"></h3>
+                    <p id="lightboxDescription" style="color: var(--muted);"></p>
+                </div>
+                <a href="#contacto" class="hero-btn" id="lightboxCTA">Solicitar este servicio</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        const canvas = document.getElementById('canvas-bg');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function initCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2;
+                this.speedX = Math.random() * 0.5 - 0.25;
+                this.speedY = Math.random() * 0.5 - 0.25;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x > canvas.width) this.x = 0;
+                if (this.x < 0) this.x = canvas.width;
+                if (this.y > canvas.height) this.y = 0;
+                if (this.y < 0) this.y = canvas.height;
+            }
+            draw() {
+                ctx.fillStyle = 'rgba(212, 175, 55, 0.3)';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function createParticles() {
+            particles = [];
+            for (let i = 0; i < 100; i++) particles.push(new Particle());
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', () => {
+            initCanvas();
+            createParticles();
+        });
+        initCanvas();
+        createParticles();
+        animate();
+
+        const reveal = () => {
+            document.querySelectorAll('.reveal').forEach(el => {
+                const windowHeight = window.innerHeight;
+                const elementTop = el.getBoundingClientRect().top;
+                const elementVisible = 100;
+                if (elementTop < windowHeight - elementVisible) {
+                    el.classList.add('active');
+                }
+            });
+        };
+
+        window.addEventListener('scroll', reveal);
+        reveal();
+
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const portfolioItems = document.querySelectorAll('.portfolio-item');
+
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                const filter = button.dataset.filter;
+
+                portfolioItems.forEach(item => {
+                    const match = filter === 'all' || item.dataset.category === filter;
+                    item.classList.toggle('hidden', !match);
+                });
+            });
+        });
+
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImage = document.getElementById('lightboxImage');
+        const lightboxTitle = document.getElementById('lightboxTitle');
+        const lightboxDescription = document.getElementById('lightboxDescription');
+        const lightboxClose = document.getElementById('lightboxClose');
+
+        portfolioItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const img = item.querySelector('img');
+                lightboxImage.src = img.src;
+                lightboxImage.alt = img.alt;
+                lightboxTitle.textContent = item.dataset.title || img.alt;
+                lightboxDescription.textContent = item.dataset.description || '';
+                lightbox.classList.add('open');
+                lightbox.setAttribute('aria-hidden', 'false');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+
+        function closeLightbox() {
+            lightbox.classList.remove('open');
+            lightbox.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+        }
+
+        lightboxClose.addEventListener('click', closeLightbox);
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) closeLightbox();
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeLightbox();
+        });
+    </script>
+</body>
+</html>
